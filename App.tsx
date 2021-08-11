@@ -1,21 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import firebase from 'firebase'
+import {
+  useFonts,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+} from '@expo-google-fonts/montserrat'
+import { Provider } from 'react-redux';
+import { store } from './src/redux';
+
+
+
+import Home from './src/pages/Home'
 
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+  })
+
+
+  if (!firebase.apps.length) {
+    const firebaseConfig = {
+      apiKey: 'AIzaSyAz1Wgvk3yEwIRk6837HE0zryy7aLfYunE',
+      authDomain: 'ccal-database.firebaseapp.com',
+      databaseURL: 'https://ccal-database-default-rtdb.firebaseio.com',
+      projectId: 'ccal-database',
+      storageBucket: 'ccal-database.appspot.com',
+      messagingSenderId: '894128015630',
+      appId: '1:894128015630:web:ec6be9ace0dcaabbc2af5f',
+      measurementId: 'G-KR2TNXM34K',
+    };
+    firebase.initializeApp(firebaseConfig);
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <Home/>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
